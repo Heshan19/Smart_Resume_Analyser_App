@@ -16,9 +16,7 @@ from Courses import ds_course,web_course,android_course,ios_course,uiux_course,r
 import pafy
 import plotly.express as px
 
-def fetch_yt_video(link):
-    video = pafy.new(link)
-    return video.title
+
 
 def get_table_download_link(df,filename,text):
     """Generates a link allowing the data in a given panda dataframe to be downloaded
@@ -82,18 +80,19 @@ def insert_data(name,email,res_score,timestamp,no_of_pages,reco_field,cand_level
     connection.commit()
 
 st.set_page_config(
-   page_title="Smart Resume Analyzer",
+   page_title="Cv Resume Analyzer",
    page_icon='./Logo/SRA_Logo.ico',
 )
 def run():
-    st.title("Smart Resume Analyser")
+    st.title("CV Resume Analyser")
     st.sidebar.markdown("# Choose User")
     activities = ["Normal User", "Admin"]
     choice = st.sidebar.selectbox("Choose among the given options:", activities)
     # link = '[©Developed by Spidy20](http://github.com/spidy20)'
     # st.sidebar.markdown(link, unsafe_allow_html=True)
-    img = Image.open('./Logo/SRA_Logo.jpg')
-    img = img.resize((250,250))
+    img = Image.open('./Logo/Logo.jpeg')
+    img = img.resize((255,255))
+
     st.image(img)
 
     # Create the DB
@@ -171,9 +170,9 @@ def run():
                 recommended_skills = []
                 reco_field = ''
                 rec_course = ''
-                ## Courses recommendation
+                ## job recommendation
                 for i in resume_data['skills']:
-                    ## Data science recommendation
+                    ## Data science 
                     if i.lower() in ds_keyword:
                         print(i.lower())
                         reco_field = 'Data Science'
@@ -185,7 +184,7 @@ def run():
                         rec_course = course_recommender(ds_course)
                         break
 
-                    ## Web development recommendation
+                    ## Web development 
                     elif i.lower() in web_keyword:
                         print(i.lower())
                         reco_field = 'Web Development'
@@ -221,7 +220,7 @@ def run():
                         rec_course = course_recommender(ios_course)
                         break
 
-                    ## Ui-UX Recommendation
+                    ## Ui-UX 
                     elif i.lower() in uiux_keyword:
                         print(i.lower())
                         reco_field = 'UI-UX Development'
@@ -298,23 +297,7 @@ def run():
                               str(recommended_skills), str(rec_course))
 
 
-                ## Resume writing video
-                st.header("**Bonus Video for Resume Writing Tips💡**")
-                resume_vid = random.choice(resume_videos)
-                res_vid_title = fetch_yt_video(resume_vid)
-                st.subheader("✅ **"+res_vid_title+"**")
-                st.video(resume_vid)
-
-                ## Interview Preparation Video
-                st.header("**Bonus Video for Interview👨‍💼 Tips💡**")
-                interview_vid = random.choice(interview_videos)
-                int_vid_title = fetch_yt_video(interview_vid)
-                st.subheader("✅ **" + int_vid_title + "**")
-                st.video(interview_vid)
-
-                connection.commit()
-            else:
-                st.error('Something went wrong..')
+                
     else:
         ## Admin Side
         st.success('Welcome to Admin Side')
@@ -323,8 +306,8 @@ def run():
         ad_user = st.text_input("Username")
         ad_password = st.text_input("Password", type='password')
         if st.button('Login'):
-            if ad_user == 'machine_learning_hub' and ad_password == 'mlhub123':
-                st.success("Welcome Kushal")
+            if ad_user == 'cv' and ad_password == '123':
+                st.success("Welcome cvbot")
                 # Display Data
                 cursor.execute('''SELECT*FROM user_data''')
                 data = cursor.fetchall()
